@@ -2,14 +2,9 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-@api_view(['GET'])
+@api_view(['POST'])
 def index(request):
-    res = {
-        'status': 1,
-        'msg': '',
-        'data': {}
-    }
-    res['status'] = 1.
-    res["msg"]='hahaha'
-    res['data'] = {'username':'zzm'}
+    text = request.data.get('text')
+    voice = request.data.get('voice')
+    res = {'text':text, 'voice':voice}
     return Response(res)
