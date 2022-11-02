@@ -8,9 +8,9 @@ function Main() {
 
     const onFinish = async (values) => {
         console.log('Received values of form: ', values)
-        // window.location.href = '/'
         const res = await api.post('/index/',values)
         console.log(res.data);
+        window.location.href = '/'
         // const result = response.data 
     }
 
