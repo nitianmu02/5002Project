@@ -10,7 +10,7 @@ function Main() {
         console.log('Received values of form: ', values)
         const res = await api.post('/index/',values)
         console.log(res.data);
-        window.location.href = '/'
+        // window.location.href = '/'
         // const result = response.data 
     }
 
@@ -40,42 +40,72 @@ function Main() {
                                 />
                         </Form.Item>
                         
-                        <Form.Item name="voice" style={{display: 'inline-flex'}} >
+                        <Form.Item 
+                            name="voice" 
+                            style={{display: 'inline-flex'}}>
                         <Select
                             style={{
                                 width: 200,
                             }}
                             options={[
                                 {
-                                value: 'Select Voice',
-                                disabled: true,
-                                label: 'Select Voice',
+                                    value: 'Select Voice',
+                                    disabled: true,
+                                    label: 'Select Voice',
                                 },
                                 {
-                                value: 'lucy',
-                                label: 'Lucy',
+                                    value: 'Paimon',
+                                    label: 'Paimon',
                                 },
                                 {
-                                value: 'disabled',
-                                disabled: true,
-                                label: 'Disabled',
+                                    value: 'Miko',
+                                    label: 'Miko',
                                 },
                                 {
-                                value: 'Yiminghe',
-                                label: 'yiminghe',
+                                    value: 'Kazuha',
+                                    label: 'Kazuha',
                                 },
+                                {
+                                    value: 'Nahida',
+                                    label: 'Nahida',
+                                },
+                                {
+                                    value: 'Hu Tao',
+                                    label: 'Hu Tao',
+                                },
+                                {
+                                    value: 'Ayaka',
+                                    label: 'Ayaka',
+                                },
+                                {
+                                    value: 'Yoimiya',
+                                    label: 'Yoimiya',
+                                },
+                                {
+                                    value: 'Gan Yu',
+                                    label: 'Gan Yu',
+                                },
+                                {
+                                    value: 'Mona',
+                                    label: 'Mona',
+                                },
+                                {
+                                    value: 'Ei',
+                                    label: 'Ei',
+                                },
+                                
                             ]}
                             />
                         </Form.Item>
 
                         <Form.Item style={{display: 'inline-flex',marginLeft:'15px', }}>
                             <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20}}>
-                                Submit
+                                Transform
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            // src="http://127.0.0.1:8000/static/audio.wav"
-                            autoPlay
+                            src="http://127.0.0.1:8000/static/audio.wav"
+                            // autoPlay
                             controls
                             style={{width:'410px'}}
                         />
