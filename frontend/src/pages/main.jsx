@@ -1,15 +1,21 @@
-import {useNavigate} from 'react-router-dom'
 import ReactAudioPlayer from "react-audio-player"
-import { Button, Form, Input, Select} from 'antd'
+import { Button, Form, Input, Select, message} from 'antd'
 import {api} from '../api/api'
 import './main.css'
 function Main() {
     const { TextArea } = Input
 
     const onFinish = async (values) => {
-        console.log('Received values of form: ', values)
-        const res = await api.post('/index/',values)
-        console.log(res.data);
+        if (values.voice === 'Select a Speaker'){
+            message.warn('Please select a speeker!')
+        }else if (values.text === undefined || values.text === '') {
+            message.warn('Please input some text!')
+        }else{
+            console.log('Received values of form: ', values)
+        }
+            
+        // const res = await api.post('/index/',values)
+        // console.log(res.data);
         // window.location.href = '/'
         // const result = response.data 
     }
@@ -17,18 +23,15 @@ function Main() {
     return (
         <div className='main'>
             <section className="main-content">
-                <h2>Teyvat</h2>
+                <h2>Teyvator</h2>
                 <Form
                     name="main"
                     className="main-form"
-                    initialValues={{ voice:'Select Voice'}}
+                    initialValues={{ "speaker":'Select a Speaker','speed':'1.0'}}
                     onFinish={onFinish}
                     
                 >
-                        <Form.Item
-                            name="text"
-                            rules={[{ required: true, message: 'Please input some text!' }]}
-                        >
+                        <Form.Item name="text">
                             <TextArea
                                 showCount
                                 maxLength={100}
@@ -41,7 +44,7 @@ function Main() {
                         </Form.Item>
                         
                         <Form.Item 
-                            name="voice" 
+                            name="speaker" 
                             style={{display: 'inline-flex'}}>
                         <Select
                             style={{
@@ -49,9 +52,9 @@ function Main() {
                             }}
                             options={[
                                 {
-                                    value: 'Select Voice',
+                                    value: 'Select a Speaker',
                                     disabled: true,
-                                    label: 'Select Voice',
+                                    label: 'Select a Speaker',
                                 },
                                 {
                                     value: 'Paimon',
@@ -70,8 +73,8 @@ function Main() {
                                     label: 'Nahida',
                                 },
                                 {
-                                    value: 'Hu Tao',
-                                    label: 'Hu Tao',
+                                    value: 'Hutao',
+                                    label: 'Hutao',
                                 },
                                 {
                                     value: 'Ayaka',
@@ -82,8 +85,8 @@ function Main() {
                                     label: 'Yoimiya',
                                 },
                                 {
-                                    value: 'Gan Yu',
-                                    label: 'Gan Yu',
+                                    value: 'Ganyu',
+                                    label: 'Ganyu',
                                 },
                                 {
                                     value: 'Mona',
@@ -100,7 +103,7 @@ function Main() {
 
                         <Form.Item style={{display: 'inline-flex',marginLeft:'15px', }}>
                             <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20}}>
-                                Transform
+                                Generate
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
@@ -109,6 +112,10 @@ function Main() {
                             controls
                             style={{width:'410px'}}
                         />
+
+                        <Form.Item name='speed' style={{display:"none"}}>
+                            <Input/>
+                        </Form.Item>
                     </Form>
             </section> 
         </div>
