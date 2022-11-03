@@ -17,7 +17,7 @@ function Main() {
     return (
         <div className='main'>
             <section className="main-content">
-                <h2>Google</h2>
+                <h2>Teyvat</h2>
                 <Form
                     name="main"
                     className="main-form"
@@ -42,9 +42,8 @@ function Main() {
                         
                         <Form.Item name="voice" style={{display: 'inline-flex'}} >
                         <Select
-                            
                             style={{
-                                width: 200
+                                width: 200,
                             }}
                             options={[
                                 {
@@ -69,13 +68,13 @@ function Main() {
                             />
                         </Form.Item>
 
-                        <Form.Item style={{display: 'inline-flex',marginLeft:'15px'}}>
-                            <Button type="primary" htmlType="submit" style={{width:200}}>
+                        <Form.Item style={{display: 'inline-flex',marginLeft:'15px', }}>
+                            <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20}}>
                                 Submit
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            src=""
+                            // src="http://127.0.0.1:8000/static/audio.wav"
                             autoPlay
                             controls
                             style={{width:'410px'}}
