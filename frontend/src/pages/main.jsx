@@ -1,23 +1,22 @@
+import { useState } from "react"
 import ReactAudioPlayer from "react-audio-player"
 import { Button, Form, Input, Select, message} from 'antd'
 import {api} from '../api/api'
 import './main.css'
 function Main() {
     const { TextArea } = Input
-
+    const [audio, setAudio] = useState()
     const onFinish = async (values) => {
-        if (values.voice === 'Select a Speaker'){
+        if (values.speaker === 'Select a Speaker'){
             message.warn('Please select a speeker!')
         }else if (values.text === undefined || values.text === '') {
             message.warn('Please input some text!')
         }else{
-            console.log('Received values of form: ', values)
+            const res = await api.post('/index/',values)
+            setAudio(res.data)
+   
         }
-            
-        // const res = await api.post('/index/',values)
-        // console.log(res.data);
-        // window.location.href = '/'
-        // const result = response.data 
+
     }
 
     return (
@@ -107,8 +106,8 @@ function Main() {
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            src="http://127.0.0.1:8000/static/audio.wav"
-                            // autoPlay
+                            src={"http://10.249.76.80:8000"+audio}
+                            autoPlay
                             controls
                             style={{width:'410px'}}
                         />
