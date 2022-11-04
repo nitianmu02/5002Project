@@ -1,20 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import ReactAudioPlayer from "react-audio-player"
 import { Button, Form, Input, Select, message} from 'antd'
 import {api} from '../api/api'
-import './main.css'
+import './main.scss'
 function Main() {
     const { TextArea } = Input
     const [audio, setAudio] = useState()
+    
+    const getAudio = () => {
+        setAudio('/VITS/output/speech.wav/')
+    }
+
+    useEffect(() => {
+        getAudio()
+    }, [])
+
     const onFinish = async (values) => {
         if (values.speaker === 'Select a Speaker'){
             message.warn('Please select a speeker!')
         }else if (values.text === undefined || values.text === '') {
             message.warn('Please input some text!')
         }else{
-            const res = await api.post('/index/',values)
-            setAudio(res.data)
-   
+            await api.post('/index/',values)
+            window.location.href = '/'
         }
 
     }
@@ -28,11 +36,11 @@ function Main() {
                     className="main-form"
                     initialValues={{ "speaker":'Select a Speaker','speed':'1.0'}}
                     onFinish={onFinish}
-                    
                 >
                         <Form.Item name="text">
                             <TextArea
                                 showCount
+                                className="textarea"
                                 maxLength={100}
                                 style={{
                                     height: 120,
@@ -44,7 +52,8 @@ function Main() {
                         
                         <Form.Item 
                             name="speaker" 
-                            style={{display: 'inline-flex'}}>
+                            style={{display: 'inline-flex'}}
+                            className='my-select-container'>
                         <Select
                             style={{
                                 width: 200,
@@ -101,13 +110,13 @@ function Main() {
                         </Form.Item>
 
                         <Form.Item style={{display: 'inline-flex',marginLeft:'15px', }}>
-                            <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20}}>
+                            <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20,}}>
                                 Generate
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
                             src={"http://10.249.76.80:8000"+audio}
-                            autoPlay
+                            // autoPlay
                             controls
                             style={{width:'410px'}}
                         />

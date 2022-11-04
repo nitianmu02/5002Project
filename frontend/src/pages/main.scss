@@ -26,3 +26,11 @@
     border-radius: 18px;
     width: 400px;
 }
+.textarea{
+    .ant-input {
+        border-radius: 15px;
+    }
+}
+.my-select-container .ant-select .ant-select-selector {
+    border-radius:20px;
+  }
