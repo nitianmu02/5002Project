@@ -9,20 +9,19 @@
     height: 100%;
     margin-left: 34%;
     padding: 20px 40px;
-    
 }
 .main-content h2{
     font-size: 60px;
     text-align: center;
     margin-top: 120px;
-    background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+    background-image: -webkit-linear-gradient(left,rgb(13, 255, 0),#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,rgb(13, 255, 0) 100%);
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-background-size: 200% 100%; 
     background-size:200% 100%; 
-    -webkit-animation: masked-animation 4s linear infinite;
-    animation: masked-animation 4s linear infinite;
+    -webkit-animation: masked-animation 5s linear infinite;
+    animation: masked-animation 5s linear infinite;
 }
 @keyframes masked-animation {
     0% {
