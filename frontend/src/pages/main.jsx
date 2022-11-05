@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import ReactAudioPlayer from "react-audio-player"
 import { Button, Form, Input, Select, message} from 'antd'
 import {api} from '../api/api'
-import './main.scss'
+import './main.css'
 function Main() {
     const { TextArea } = Input
     const [audio, setAudio] = useState()
