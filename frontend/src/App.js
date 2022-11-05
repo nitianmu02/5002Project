@@ -7,7 +7,7 @@ function App() {
           <Route path="" element = {<Main/>}/>
       </Routes>
     </HashRouter>
-  );
+  )
 }
 
 export default App;

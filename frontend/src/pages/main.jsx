@@ -17,7 +17,7 @@ function Main() {
 
     const onFinish = async (values) => {
         if (values.speaker === 'Select a Speaker'){
-            message.warn('Please select a speeker!')
+            message.warn('Please select a speaker!')
         }else if (values.text === undefined || values.text === '') {
             message.warn('Please input some text!')
         }else{
