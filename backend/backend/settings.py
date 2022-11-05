@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-+$u@fr$&l=!$wob_mi#1puh0y^hk!t=wr0oskiguzo$_nif^#^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.249.76.80']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     "api.apps.ApiConfig",
+    "VITS",
 ]
 
 MIDDLEWARE = [
@@ -116,9 +117,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "/VITS/"
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "VITS",
 ]
 
 
