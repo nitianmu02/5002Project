@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
 import ReactAudioPlayer from "react-audio-player"
 import { Button, Form, Input, Select, message} from 'antd'
-import {api} from '../api/api'
+import axios from 'axios'
 import './main.css'
 function Main() {
     const { TextArea } = Input
     const [audio, setAudio] = useState()
-    
+    const api = axios.create({
+        baseURL: 'http://172.21.175.32:8000'
+    })
+
     const getAudio = () => {
         setAudio('/VITS/output/speech.wav/')
     }
@@ -21,7 +24,8 @@ function Main() {
         }else if (values.text === undefined || values.text === '') {
             message.warn('Please input some text!')
         }else{
-            await api.post('/index/',values)
+            //axios library to send the values to the backend
+            await api.post('/api/index/',values)
             window.location.href = '/'
         }
 
@@ -115,7 +119,7 @@ function Main() {
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            src={"http://10.249.76.80:8000"+audio}
+                            src={"http://172.21.175.32:8000"+audio}
                             // autoPlay
                             controls
                             style={{width:'410px'}}
