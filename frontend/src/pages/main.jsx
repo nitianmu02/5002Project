@@ -7,7 +7,7 @@ function Main() {
     const { TextArea } = Input
     const [audio, setAudio] = useState()
     const api = axios.create({
-        baseURL: 'http://172.21.175.32:8000'
+        baseURL: 'http://127.0.0.1:8000'
     })
 
     const getAudio = () => {
@@ -119,7 +119,7 @@ function Main() {
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            src={"http://172.21.175.32:8000"+audio}
+                            src={"http://127.0.0.1:8000"+audio}
                             // autoPlay
                             controls
                             style={{width:'410px'}}
