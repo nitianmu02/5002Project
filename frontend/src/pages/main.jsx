@@ -110,12 +110,13 @@ function Main() {
                         </Form.Item>
 
                         <Form.Item style={{display: 'inline-flex',marginLeft:'15px', }}>
-                            <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20,}}>
+                            <Button type="primary" htmlType="submit" style={{width:200, borderRadius: 20, backgroundColor: '#3CB371', font:'bold'}}>
                                 Generate
                             </Button>
                         </Form.Item>
                         <ReactAudioPlayer
-                            src={"http://10.249.76.80:8000"+audio}
+                            // src={"http://10.249.76.80:8000"+audio}
+                            src={"http://127.0.0.1:8000"+audio}
                             // autoPlay
                             controls
                             style={{width:'410px'}}

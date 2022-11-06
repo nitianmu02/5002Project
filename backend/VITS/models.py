@@ -521,14 +521,46 @@ class SynthesizerTrn(nn.Module):
     z = self.flow(z_p, y_mask, g=g, reverse=True)
     o = self.dec((z * y_mask)[:,:,:max_len], g=g)
     return o, attn, y_mask, (z, z_p, m_p, logs_p)
-
-  def voice_conversion(self, y, y_lengths, sid_src, sid_tgt):
-    assert self.n_speakers > 0, "n_speakers have to be larger than 0."
-    g_src = self.emb_g(sid_src).unsqueeze(-1)
-    g_tgt = self.emb_g(sid_tgt).unsqueeze(-1)
-    z, m_q, logs_q, y_mask = self.enc_q(y, y_lengths, g=g_src)
-    z_p = self.flow(z, y_mask, g=g_src)
-    z_hat = self.flow(z_p, y_mask, g=g_tgt, reverse=True)
-    o_hat = self.dec(z_hat * y_mask, g=g_tgt)
+  
+  def infer_sts(self, y, y_lengths, sid, tid):
+        
+    sid = self.emb_g(sid).unsqueeze(-1)
+    tid = self.emb_g(tid).unsqueeze(-1)
+    z, _, _, y_mask = self.enc_q(y, y_lengths, g=sid)
+    z_p = self.flow(z, y_mask, g=tid)
+    z_hat = self.flow(z_p, y_mask, g=tid, reverse=True)
+    o_hat = self.dec(z_hat * y_mask, g=tid)
     return o_hat, y_mask, (z, z_p, z_hat)
+  
+  def infer_hyb(self, x, x_lengths, y, y_mask_, weight, src_sid=None, tar_sid=None, noise_scale=1, length_scale=1, noise_scale_w=1., max_len=None):
+    x, m_p, logs_p, x_mask = self.enc_p(x, x_lengths)
+    
+    src_sid = self.emb_g(src_sid).unsqueeze(-1)
+    tar_sid = self.emb_g(tar_sid).unsqueeze(-1) # [b, h, 1]
 
+    logw = self.dp(x, x_mask, g=tar_sid, reverse=True, noise_scale=noise_scale_w)
+    w = torch.exp(logw) * x_mask * length_scale
+    w_ceil = torch.ceil(w)
+    y_lengths = torch.clamp_min(torch.sum(w_ceil, [1, 2]), 1).long()
+    y_mask = torch.unsqueeze(commons.sequence_mask(y_lengths, None), 1).to(x_mask.dtype)
+    attn_mask = torch.unsqueeze(x_mask, 2) * torch.unsqueeze(y_mask, -1)
+    attn = commons.generate_path(w_ceil, attn_mask)
+
+    m_p = torch.matmul(attn.squeeze(1), m_p.transpose(1, 2)).transpose(1, 2) # [b, t', t], [b, t, d] -> [b, d, t']
+    logs_p = torch.matmul(attn.squeeze(1), logs_p.transpose(1, 2)).transpose(1, 2) # [b, t', t], [b, t, d] -> [b, d, t']
+
+    z_p = m_p + torch.randn_like(m_p) * torch.exp(logs_p) * noise_scale
+    
+
+    y = self.flow(y, y_mask_, g=src_sid)
+    y = self.flow(y, y_mask_, g=tar_sid, reverse=True)
+    z_p = self.flow(z_p, y_mask, g=tar_sid, reverse=True)
+    if y.shape[-1] > z_p.shape[-1]:
+      y.resize_(z_p.shape)
+      y_mask_.resize_(y_mask.shape[-1])
+    else:
+      z_p.resize_(y.shape)
+      y_mask.resize_(y_mask_.shape[-1])
+    z = (y*weight).add(z_p * (1-weight))
+    o = self.dec((z * y_mask), g=tar_sid)
+    return o
